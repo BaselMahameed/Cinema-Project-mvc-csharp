@@ -1,0 +1,215 @@
+﻿
+@model IEnumerable<Cinema.Models.ShowTime>
+
+
+@{
+    ViewData["Title"] = "Details";
+}
+<head>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <style>
+        #table {
+            font-family: Georgia, Times New Roman, serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            #table td, #table th {
+                border: 1px black solid #ddd;
+                padding: 8px;
+                color: white;
+                font-size: 20px;
+            }
+
+
+
+            #table tr:hover {
+                background-color: #ccc0c0;
+                #background: transparent;
+            }
+
+            #table th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #4CAF50;
+                color: dimgray;
+                background: transparent;
+                font-size: 30px;
+            }
+
+        .det {
+            position: absolute;
+            left: 530px;
+            top: 200px;
+            color: white;
+        }
+
+        .t {
+            font-family: Georgia, Times New Roman, serif;
+            color: #f5c20d;
+            font-size: 20px;
+        }
+
+        .head h1 {
+            font-family: Georgia, Times New Roman, serif;
+            font-size: 30px;
+            text-align: center;
+            line-height: 1.5em;
+            padding-bottom: 45px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #989797;
+        }
+
+        
+        body {
+            background-image: url('https://wallpaperaccess.com/full/1561985.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        .cost {
+            color: #f5c20d;
+            font-size: 30px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="head">
+        <h1>Show Time & Details</h1>
+    </div>
+    <div>
+        @foreach (var item in Model.Where(m => m.Id == ViewBag.id))
+        {
+            <p>
+                <td>
+                    <img src="@item.MoivePicture" align="left" width="250" height="250" asp-append-version="true" />
+                </td>
+                <br />
+                <div class="det">
+                    <b class="t">
+                        Movie Name :
+                    </b>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Movie_Name)
+                    </td>
+
+
+                    <br />
+                    <b class="t">
+                        Movie Desc :
+                    </b>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Movie_Details)
+                    </td>
+
+                    <br />
+                    <b class="t">
+                        Movie Category :
+                    </b>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.category)
+                    </td>
+
+                    <br />
+                    <b class="t">
+                        Age :
+                    </b>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Age)
+                    </td>
+
+                    <br />
+                    <b class="t"> Rating : </b>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rating)
+                    </td>
+                </div>
+            </p>
+            <br /><br />
+            break;
+        }
+
+        <br /><br /><br /><br /><br />
+
+
+    </div>
+    <p></p>
+
+    <br /><br />
+
+    @using (Html.BeginForm("Ordered", "Home", new { id = ViewBag.id }, FormMethod.Post))
+    {
+
+        <h6 class="cost">Cost</h6>
+        <select name="h">
+            <option></option>
+            <option value="1">Higher</option>
+            <option value="2">Lower</option>
+        </select>
+
+        <input type="submit" value="sort">
+    }
+
+    <table id="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Hall)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateAndTimeS)
+                </th>
+
+                <th>
+
+                    @Html.DisplayNameFor(model => model.DateAndTimeE)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Seat)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cost)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Where(m => m.Id == ViewBag.id))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Hall)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateAndTimeS)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateAndTimeE)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Seat)
+                    </td>
+                    <td id="cost">
+                        @Html.DisplayFor(modelItem => item.Cost)
+                    </td>
+                    <td>
+                        <a asp-controller="Home" asp-action="BookNow" asp-route-id="@item.ShowId">Booking  Now</a>
+
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+
+
+    <div>
+        <a asp-controller="Home" asp-action="Index">Back to List</a>
+    </div>
+</body>
